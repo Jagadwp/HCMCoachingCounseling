@@ -70,6 +70,36 @@ class Account extends \yii\db\ActiveRecord
         ];
     }
 
+ /**
+     * Gets query for [[Ccs]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSuperiorCcs()
+    {
+        return $this->hasMany(Cc::class, ['superior_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Ccs0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSubordinateCcs()
+    {
+        return $this->hasMany(Cc::class, ['subordinate_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[SubordinateWorklists]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSubordinateWorklists()
+    {
+        return $this->hasMany(SubordinateWorklist::class, ['subordinate_id' => 'id']);
+    }
+
     /**
      * Gets query for [[SuperiorWorklists]].
      *
@@ -77,6 +107,6 @@ class Account extends \yii\db\ActiveRecord
      */
     public function getSuperiorWorklists()
     {
-        return $this->hasMany(SuperiorWorklist::className(), ['superior_id' => 'id']);
+        return $this->hasMany(SuperiorWorklist::class, ['superior_id' => 'id']);
     }
 }

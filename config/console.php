@@ -38,6 +38,11 @@ $config = [
         ],
     ],
     */
+    'controllerMap' => [
+        'seeder' => [
+            'class' => 'antonyz89\seeder\SeederController'
+        ],
+    ],
 ];
 
 if (YII_ENV_DEV) {
