@@ -32,8 +32,9 @@ class m220831_162720_add_superior_worklist_table extends Migration
             'id' => $this->primaryKey(),
             'superior_id' => $this->integer(),
             'subordinate_id' => $this->integer(),
+            'title' => $this->string(),
             'cc_category_id' => $this->integer(),
-            'cc__id' => $this->integer(),
+            'cc_id' => $this->integer(),
             'created_at' => $this->timestamp(),
             'updated_at' => $this->timestamp(),
             

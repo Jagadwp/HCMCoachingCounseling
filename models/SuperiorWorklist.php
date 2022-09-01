@@ -10,8 +10,9 @@ use Yii;
  * @property int $id
  * @property int|null $superior_id
  * @property int|null $subordinate_id
+ * @property string|null $title
  * @property int|null $cc_category_id
- * @property int|null $cc__id
+ * @property int|null $cc_id
  * @property string|null $created_at
  * @property string|null $updated_at
  *
@@ -34,11 +35,12 @@ class SuperiorWorklist extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['superior_id', 'subordinate_id', 'cc_category_id', 'cc__id'], 'default', 'value' => null],
-            [['superior_id', 'subordinate_id', 'cc_category_id', 'cc__id'], 'integer'],
+            [['superior_id', 'subordinate_id', 'cc_category_id', 'cc_id'], 'default', 'value' => null],
+            [['superior_id', 'subordinate_id', 'cc_category_id', 'cc_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
+            [['title'], 'string', 'max' => 255],
             [['superior_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['superior_id' => 'id']],
-            // [['cc_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => CcCategory::className(), 'targetAttribute' => ['cc_category_id' => 'id']],
+            // [['cc_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => CcCategory::class, 'targetAttribute' => ['cc_category_id' => 'id']],
         ];
     }
 
@@ -51,8 +53,9 @@ class SuperiorWorklist extends \yii\db\ActiveRecord
             'id' => 'ID',
             'superior_id' => 'Superior ID',
             'subordinate_id' => 'Subordinate ID',
+            'title' => 'Title',
             'cc_category_id' => 'Cc Category ID',
-            'cc__id' => 'Cc  ID',
+            'cc_id' => 'Cc ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -65,6 +68,6 @@ class SuperiorWorklist extends \yii\db\ActiveRecord
      */
     public function getSuperior()
     {
-        return $this->hasOne(User::class(), ['id' => 'superior_id']);
+        return $this->hasOne(User::class, ['id' => 'superior_id']);
     }
 }
