@@ -18,7 +18,6 @@ use Yii;
  * @property string|null $access_token
  * @property string|null $created_at
  * @property string|null $updated_at
- * @property string|null $username
  *
  * @property SuperiorWorklist[] $superiorWorklists
  */
@@ -44,7 +43,7 @@ class Account extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'email'], 'string', 'max' => 55],
             [['nik'], 'string', 'max' => 16],
-            [['password', 'role', 'auth_key', 'access_token', 'username'], 'string', 'max' => 255],
+            [['password', 'role', 'auth_key', 'access_token'], 'string', 'max' => 255],
             [['email'], 'unique'],
         ];
     }
@@ -66,7 +65,6 @@ class Account extends \yii\db\ActiveRecord
             'access_token' => 'Access Token',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'username' => 'Username',
         ];
     }
 

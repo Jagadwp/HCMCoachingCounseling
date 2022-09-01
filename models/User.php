@@ -25,14 +25,14 @@ class User extends Account implements IdentityInterface
     }
 
     /**
-     * Finds user by username
+     * Finds user by name
      *
-     * @param string $username
+     * @param string $name
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByName($name)
     {
-        return User::findOne(['username'=> $username]);
+        return User::findOne(['name'=> $name]);
     }
 
     /**
