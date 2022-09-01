@@ -12,6 +12,10 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        // tambahan RBAC
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // atau yii\rbac\PhpManager
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '0jU4n2HoB0ziRArUgHZgyF0udOKDaN6r',
@@ -51,6 +55,16 @@ $config = [
 
     ],
     'params' => $params,
+
+    // tambahan modul
+    'modules' => [
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu',
+            'mainLayout'=> '@app/views/layouts/main.php'
+        ]
+        
+        ],
 ];
 
 if (YII_ENV_DEV) {
