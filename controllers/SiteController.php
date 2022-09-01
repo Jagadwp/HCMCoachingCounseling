@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\SuperiorWorklist;
 
 class SiteController extends Controller
 {
@@ -124,5 +125,65 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+
+    // ============== Dummy controller ===============//
+    public function actionRequest()
+    {
+        $model = new SuperiorWorklist();
+        return $this->render("request", ["model" => $model]);
+    }
+
+    public function actionCreate()
+    {
+        return $this->render("create");
+    }
+
+    public function actionWorklist()
+    {
+        $data = [
+            [
+                "title" => "Counseling PHP",
+                "date" => "Tue, 19 Sept 2022",
+                "time" => "08:00 AM",
+                "status" => "requested",
+                "theme" => "warning",
+                "type" => "regular"
+            ],
+            [
+                "title" => "Final Report",
+                "date" => "Thu, 31 Dec 2022",
+                "time" => "12:00 PM",
+                "status" => "scheduled",
+                "theme" => "success",
+                "type" => "achievement"
+            ],
+            [
+                "title" => "Lorem Ipsum",
+                "date" => "Thu, 31 Dec 2022",
+                "time" => "12:00 PM",
+                "status" => "requested",
+                "theme" => "warning",
+                "type" => "career plan"
+            ],
+            [
+                "title" => "Lor dolor Sit Amet",
+                "date" => "Thu, 31 Dec 2022",
+                "time" => "12:00 PM",
+                "status" => "scheduled",
+                "theme" => "success",
+                "type" => "goal setting"
+            ],
+            [
+                "title" => "Lorem Ipsum",
+                "date" => "Thu, 31 Dec 2022",
+                "time" => "12:00 PM",
+                "status" => "scheduled",
+                "theme" => "success",
+                "type" => "target monitoring"
+            ]
+        ];
+        return $this->render("worklist", ["worklists" => $data]);
     }
 }
