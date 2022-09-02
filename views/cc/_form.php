@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
                 'autoclose' => true,
                 'todayHighlight' => true,
                 'todayBtn' => true,
-                "format" => "dd, M yyyy"
+                "format" => "yyyy-mm-dd"
             ]
         ]);
         ?>
@@ -64,15 +64,19 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
     <script>
+        const toggleCcLocation = () => {
+            const cc_location = document.getElementById("cc-location")
+            if (document.getElementById("cc-cc_category_id").value === "6") { // 6 = regular
+                cc_location.disabled = false
+            } else {
+                cc_location.disabled = true
+                cc_location.value = ""
+            }
+        }
         window.addEventListener('load', (event) => {
+            toggleCcLocation()
             document.getElementById("cc-cc_category_id").addEventListener("change", (e) => {
-                const cc_location = document.getElementById("cc-location")
-                if (e.target.value === "6") { // 6 = regular
-                    cc_location.disabled = false
-                } else {
-                    cc_location.disabled = true
-                    cc_location.value = ""
-                }
+                toggleCcLocation()
             })
         });
     </script>

@@ -115,8 +115,13 @@ class CcController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $categories = CcCategory::find()->select(["id", "name"])->all();
+        $subordinates = User::find()->select(["id", "name", "email"])->where(["superior_id" => \Yii::$app->user->identity->id])->all();
+        
         return $this->render('update', [
             'model' => $model,
+            'categories' => $categories,
+            'subordinates' => $subordinates
         ]);
     }
 
