@@ -116,4 +116,9 @@ class Cc extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'superior_id']);
     }
+
+    public function getCategory()
+    {
+        return $this->hasOne(CcCategory::class, ["id" => "cc_category_id"]);
+    }
 }

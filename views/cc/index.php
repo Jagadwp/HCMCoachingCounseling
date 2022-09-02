@@ -26,9 +26,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'superior_id',
-            'subordinate_id',
-            'cc_category_id',
+            [
+                'attribute' => 'superior_id',
+                'label' => 'Superior',
+                'value' => 'superior.name'
+            ],
+            [
+                'attribute' => 'subordinate_id',
+                'label' => 'Subordinate',
+                'value' => 'subordinate.name'
+            ],
+            [
+                'attribute' => 'cc_category_id',
+                'label' => 'CC Category',
+                'value' => 'category.name'
+            ],
             'link',
             'location',
             'date',
@@ -39,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

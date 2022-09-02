@@ -30,9 +30,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'superior_id',
-            'subordinate_id',
-            'cc_category_id',
+            [
+                'attribute' => 'superior_id',
+                'label' => 'Superior',
+                'value' => $model->superior->name
+            ],
+            [
+                'attribute' => 'subordinate_id',
+                'label' => 'Subordinate',
+                'value' => $model->subordinate->name
+            ],
+            [
+                'attribute' => 'cc_category_id',
+                'label' => 'CC Category',
+                'value' => $model->category->name
+            ],
             'link',
             'location',
             'date',
