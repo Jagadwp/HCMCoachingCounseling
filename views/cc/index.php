@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ccs';
+$this->title = 'Cc List';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cc-index">
@@ -30,14 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'subordinate_id',
             'cc_category_id',
             'link',
-            //'location',
-            //'date',
-            //'time',
+            'location',
+            'date',
+            'time',
             //'created_at',
             //'updated_at',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Cc $model, $key, $index, $column) {
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

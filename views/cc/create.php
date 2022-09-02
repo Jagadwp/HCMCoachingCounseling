@@ -6,15 +6,16 @@ use yii\helpers\Html;
 /* @var $model app\models\Cc */
 
 $this->title = 'Create Cc';
-$this->params['breadcrumbs'][] = ['label' => 'Ccs', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Cc', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cc-create">
-
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
+        "categories" => $categories,
+        "subordinates" => $subordinates
     ]) ?>
 
 </div>

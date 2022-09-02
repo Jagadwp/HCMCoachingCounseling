@@ -2,7 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\Account;
 use app\models\Cc;
+use app\models\CcCategory;
+use app\models\User;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -87,8 +90,13 @@ class CcController extends Controller
             $model->loadDefaultValues();
         }
 
+        $categories = CcCategory::find()->select(["id", "name"])->all();
+        $subordinates = User::find()->select(["id", "name", "email"])->where(["superior_id" => \Yii::$app->user->identity->id])->all();
+        
         return $this->render('create', [
             'model' => $model,
+            'categories' => $categories,
+            'subordinates' => $subordinates
         ]);
     }
 
