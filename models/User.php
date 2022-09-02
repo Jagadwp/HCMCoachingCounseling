@@ -36,6 +36,17 @@ class User extends Account implements IdentityInterface
     }
 
     /**
+     * Finds user by name
+     *
+     * @param string $name
+     * @return static|null
+     */
+    public static function findByEmail($email)
+    {
+        return User::findOne(['email'=> $email]);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getId()
@@ -67,7 +78,7 @@ class User extends Account implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 
     /**

@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ]); ?>
 
-        <?= $form->field($model, 'username', ["options" => ["class" => "mb-3"]])
+        <?= $form->field($model, 'email', ["options" => ["class" => "mb-3"]])
                 ->textInput(['autofocus' => true, "placeholder" => "Enter email address", "style" => "width: 340px"])
                 ->label("Email", ["class" => "ps-0"]) ?>
 
