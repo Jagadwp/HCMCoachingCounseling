@@ -23,7 +23,7 @@ use yii\helpers\Url;
             </div>
         </div>
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <a class="btn btn-success w-100 text-light" role="button" href="<?= Url::to(["/site/create"]) ?>">
+            <a class="btn btn-success w-100 text-light" role="button" href="<?= Url::to(["/cc/create"]) ?>">
                 <i class="nav-icon fas fa-edit"></i> Create CC
             </a>
         </div>
@@ -61,7 +61,7 @@ use yii\helpers\Url;
                     // ],
                     ['label' => 'Worklists',  'icon' => 'table', 'url' => ["/site/worklist"], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Requested', 'icon' => 'book', 'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
-                    ['label' => 'CC', 'icon' => 'book', 'url' => ['/site/cc'], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'CC', 'icon' => 'book', 'url' => ['/cc/index'], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Logout','url' => ['/site/logout'],  'visible' => !Yii::$app->user->isGuest, 
                     'template'=>'<a href="{url}" class="nav-link" data-method="post"> <i class="nav-icon fas fa-sign-out-alt"></i> {label}</a>'],
