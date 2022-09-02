@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -65,33 +66,8 @@ use yii\helpers\Url;
                     // ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],
                     ['label' => 'Requested', 'icon' => 'book', 'url' => ['/debug'], 'target' => '_blank'],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
-                    ['label' => 'Logout', 'url' => ['#'], 'icon' => 'sign-out-alt', "options" => ["class" => "nav-item"]],
-
-
-
-                    // ['label' => 'MULTI LEVEL EXAMPLE', 'header' => true],
-                    // ['label' => 'Level1'],
-                    // [
-                    //     'label' => 'Level1',
-                    //     'items' => [
-                    //         ['label' => 'Level2', 'iconStyle' => 'far'],
-                    //         [
-                    //             'label' => 'Level2',
-                    //             'iconStyle' => 'far',
-                    //             'items' => [
-                    //                 ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle'],
-                    //                 ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle'],
-                    //                 ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle']
-                    //             ]
-                    //         ],
-                    //         ['label' => 'Level2', 'iconStyle' => 'far']
-                    //     ]
-                    // ],
-                    // ['label' => 'Level1'],
-                    // ['label' => 'LABELS', 'header' => true],
-                    // ['label' => 'Important', 'iconStyle' => 'far', 'iconClassAdded' => 'text-danger'],
-                    // ['label' => 'Warning', 'iconClass' => 'nav-icon far fa-circle text-warning'],
-                    // ['label' => 'Informational', 'iconStyle' => 'far', 'iconClassAdded' => 'text-info'],
+                    ['label' => 'Logout','url' => ['/site/logout'],  'visible' => !Yii::$app->user->isGuest, 
+                    'template'=>'<a href="{url}" class="nav-link" data-method="post"> <i class="nav-icon fas fa-sign-out-alt"></i> {label}</a>'],
                 ],
             ]);
             ?>
