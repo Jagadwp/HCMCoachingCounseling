@@ -13,12 +13,13 @@ use yii\helpers\Url;
     <!-- Sidebar -->
     <div class="sidebar" style="height: 100vh">
         <!-- Sidebar user panel (optional) -->
+        <?php if(!Yii::$app->user->isGuest) : ?>
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="<?= $assetDir ?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block"><?= \Yii::$app->user->identity->name ?></a>
             </div>
         </div>
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -31,11 +32,8 @@ use yii\helpers\Url;
                 <i class="nav-icon fas fa-edit"></i> Request CC
             </a>
         </div>
-
-
-        <!-- SidebarSearch Form -->
-        <!-- href be escaped -->
-        <!-- <div class="form-inline">
+        
+        <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
                 <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
                 <div class="input-group-append">
@@ -44,7 +42,8 @@ use yii\helpers\Url;
                     </button>
                 </div>
             </div>
-        </div> -->
+        </div>
+        <?php endif; ?>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -60,11 +59,9 @@ use yii\helpers\Url;
                     //         ['label' => 'Inactive Page', 'iconStyle' => 'far'],
                     //     ]
                     // ],
-                    // ['label' => 'Simple Link', 'icon' => 'th', 'badge' => '<span class="right badge badge-danger">New</span>'],
-                    // ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'target' => '_blank'],
-                    ['label' => 'Worklists',  'icon' => 'table', 'url' => ["/site/worklist"]],
-                    // ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],
-                    ['label' => 'Requested', 'icon' => 'book', 'url' => ['/debug'], 'target' => '_blank'],
+                    ['label' => 'Worklists',  'icon' => 'table', 'url' => ["/site/worklist"], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'Requested', 'icon' => 'book', 'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'CC', 'icon' => 'book', 'url' => ['/site/cc'], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Logout','url' => ['/site/logout'],  'visible' => !Yii::$app->user->isGuest, 
                     'template'=>'<a href="{url}" class="nav-link" data-method="post"> <i class="nav-icon fas fa-sign-out-alt"></i> {label}</a>'],
@@ -72,7 +69,5 @@ use yii\helpers\Url;
             ]);
             ?>
         </nav>
-        <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
 </aside>
