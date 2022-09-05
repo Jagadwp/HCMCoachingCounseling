@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "superior_worklist".
@@ -27,6 +30,22 @@ class SuperiorWorklist extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'superior_worklist';
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'value' => new Expression('NOW()'),
+            ],
+            // subordinate auto keisi sama logged user
+            [
+                'class' => BlameableBehavior::class,
+                'createdByAttribute' => 'subordinate_id',
+                'updatedByAttribute' => 'subordinate_id'
+            ],
+        ];
     }
 
     /**

@@ -100,6 +100,38 @@ class CcController extends Controller
         ]);
     }
 
+//    /**
+//     * Request a CC
+//     * @return string|\yii\web\Response
+//     */
+//    public function actionRequest()
+//    {
+//
+//        $model = new SuperiorWorklist();
+//
+//        if ($this->request->isPost) {
+////            $model->subordinate_id = \Yii::$app->user->identity->id;
+//////            $model->created_at =
+//            if ($model->load($this->request->post()) && $model->save()) {
+//                return $this->redirect(['viewsuperiorworklist', 'id' => $model->id]);
+//            }
+//        } else {
+//            $model->loadDefaultValues();
+//        }
+//
+//        $categories = CcCategory::find()->select(["id", "name"])->all();
+//        $superior = User::find()->select(["id", "name", "email"])->where(["id" => \Yii::$app->user->identity->superior_id])->all();
+//
+//        return $this->render("request", ["model" => $model, 'categories' => $categories, 'superior' => $superior]);
+//    }
+//
+//    public function actionViewSuperiorWorklist($id) {
+//        return $this->render('viewsuperiorworklist', [
+//            'model' => $this->findModel($id),
+//        ]);
+//    }
+
+
     /**
      * Updates an existing Cc model.
      * If update is successful, the browser will be redirected to the 'view' page.

@@ -28,7 +28,7 @@ use yii\helpers\Url;
             </a>
         </div>
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <a class="btn btn-success w-100 text-light" role="button" href="<?= Url::to(["/site/request"]) ?>">
+            <a class="btn btn-success w-100 text-light" role="button" href="<?= Url::to(["/request/create"]) ?>">
                 <i class="nav-icon fas fa-edit"></i> Request CC
             </a>
         </div>
