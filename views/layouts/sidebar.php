@@ -14,12 +14,12 @@ use yii\helpers\Url;
     <div class="sidebar" style="height: 100vh">
         <!-- Sidebar user panel (optional) -->
         <?php if(!Yii::$app->user->isGuest) : ?>
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
             <div class="image">
                 <img src="<?= $assetDir ?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block"><?= \Yii::$app->user->identity->name ?></a>
+                <a href="#" class="d-block"><?= \Yii::$app->user->identity->name ?> <br> (<?= \Yii::$app->user->identity->role ?>)</a>
             </div>
         </div>
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -59,7 +59,7 @@ use yii\helpers\Url;
                     //         ['label' => 'Inactive Page', 'iconStyle' => 'far'],
                     //     ]
                     // ],
-                    ['label' => 'Worklists',  'icon' => 'table', 'url' => ["/site/worklist"], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'Worklists',  'icon' => 'table', 'url' => ["/worklist"], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Requested', 'icon' => 'book', 'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'CC', 'icon' => 'book', 'url' => ['/cc/index'], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
