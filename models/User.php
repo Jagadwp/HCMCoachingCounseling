@@ -88,7 +88,7 @@ class User extends Account implements IdentityInterface
      */
     public function getSuperior()
     {
-        return $this->hasMany(User::class, ['id' => 'superior_id'])
+        return $this->hasOne(User::class, ['id' => 'superior_id'])
             ->select(["id", "name", "email"]);
     }
 
