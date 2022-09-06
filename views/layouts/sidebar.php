@@ -22,16 +22,22 @@ use yii\helpers\Url;
                 <a href="#" class="d-block"><?= \Yii::$app->user->identity->name ?> <br> (<?= \Yii::$app->user->identity->role ?>)</a>
             </div>
         </div>
+
+        <?php if(Yii::$app->user->identity->role === "superior") : ?>
+        
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <a class="btn btn-success w-100 text-light" role="button" href="<?= Url::to(["/cc/create"]) ?>">
                 <i class="nav-icon fas fa-edit"></i> Create CC
             </a>
         </div>
+        <?php else: ?>
+
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <a class="btn btn-success w-100 text-light" role="button" href="<?= Url::to(["/request/create"]) ?>">
                 <i class="nav-icon fas fa-edit"></i> Request CC
             </a>
         </div>
+        <?php endif; ?>
         
         <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
