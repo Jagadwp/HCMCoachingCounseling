@@ -24,7 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ->textInput(['autofocus' => true, "placeholder" => "Enter title"])
         ->label("Title", ["class" => "ps-0"]) ?>
 
-    <?= $form->field($model, 'superior_id')->dropDownList(ArrayHelper::map($superior, "id", "name"), ['prompt' => '- Select Type -'])->label("Choose Superior", ["class" => "ps-0"]) ?>
+
+    <label class="ps-0" for="shown-value">Superior</label>
+    <input class="form-control" type="text" id="shown-value" value="<?= $superior->name ?>" disabled>
+
+    <?= $form->field($model, 'superior_id')->textInput(['maxlength' => true, 'readonly' => true, 'value' => $superior->id, 'hidden' => true])->label(false) ?>
 
     <?= $form->field($model, 'cc_category_id')->dropDownList(ArrayHelper::map($categories, "id", "name"), ['prompt' => '- Select Type -'])->label("Cc Category", ["class" => "ps-0"]) ?>
 
