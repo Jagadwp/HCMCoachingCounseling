@@ -25,14 +25,25 @@ class User extends Account implements IdentityInterface
     }
 
     /**
-     * Finds user by username
+     * Finds user by name
      *
-     * @param string $username
+     * @param string $name
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByName($name)
     {
-        return User::findOne(['username'=> $username]);
+        return User::findOne(['name'=> $name]);
+    }
+
+    /**
+     * Finds user by name
+     *
+     * @param string $name
+     * @return static|null
+     */
+    public static function findByEmail($email)
+    {
+        return User::findOne(['email'=> $email]);
     }
 
     /**
@@ -67,7 +78,59 @@ class User extends Account implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return Yii::$app->security->validatePassword($password, $this->password);
+    }
+
+    /**
+     * Gets query for [[User (superior)]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSuperior()
+    {
+        return $this->hasOne(User::class, ['id' => 'superior_id'])
+            ->select(["id", "name", "email"]);
+    }
+
+    /**
+     * Gets query for [[User (superior)]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSubordinates()
+    {
+        return $this->hasMany(User::class, ['superior_id' => 'id'])
+            ->select(["id", "name", "email"]);
+    }
+
+    /**
+     * Gets query for [[Ccs]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSuperiorCcs()
+    {
+        return $this->hasMany(Cc::class, ['superior_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Ccs0]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSubordinateCcs()
+    {
+        return $this->hasMany(Cc::class, ['subordinate_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[SubordinateWorklists]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSubordinateWorklists()
+    {
+        return $this->hasMany(SubordinateWorklist::class, ['subordinate_id' => 'id']);
     }
 
     /**
@@ -75,4 +138,8 @@ class User extends Account implements IdentityInterface
      *
      * @return \yii\db\ActiveQuery
      */
+    public function getSuperiorWorklists()
+    {
+        return $this->hasMany(SuperiorWorklist::class, ['superior_id' => 'id']);
+    }
 }
