@@ -90,9 +90,14 @@ class RequestController extends Controller {
         }
 
         $categories = CcCategory::find()->select(["id", "name"])->all();
-        $superior = User::find()->select(["id", "name", "email"])->where(["id" => \Yii::$app->user->identity->superior_id])->all();
-
-        return $this->render("request", ["model" => $model, 'categories' => $categories, 'superior' => $superior]);
+        $user = \Yii::$app->user?->identity;
+        $superior = $user->superior;
+        
+        return $this->render("request", [
+            "model" => $model, 
+            'categories' => $categories, 
+            'superior' => $superior
+        ]);
     }
 
 

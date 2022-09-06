@@ -61,7 +61,7 @@ class CcCategory extends \yii\db\ActiveRecord
      */
     public function getCcs()
     {
-        return $this->hasMany(Cc::className(), ['cc_category_id' => 'id']);
+        return $this->hasMany(Cc::class, ['cc_category_id' => 'id']);
     }
 
     /**
@@ -71,7 +71,7 @@ class CcCategory extends \yii\db\ActiveRecord
      */
     public function getSubordinateWorklists()
     {
-        return $this->hasMany(SubordinateWorklist::className(), ['cc_category_id' => 'id']);
+        return $this->hasMany(SubordinateWorklist::class, ['cc_category_id' => 'id']);
     }
 
     /**
@@ -81,6 +81,6 @@ class CcCategory extends \yii\db\ActiveRecord
      */
     public function getSuperiorWorklists()
     {
-        return $this->hasMany(SuperiorWorklist::className(), ['cc_category_id' => 'id']);
+        return $this->hasMany(SuperiorWorklist::class, ['cc_category_id' => 'id']);
     }
 }
