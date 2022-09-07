@@ -5,7 +5,9 @@ namespace app\controllers;
 use app\models\Account;
 use app\models\Cc;
 use app\models\CcCategory;
+use app\models\SuperiorWorklist;
 use app\models\User;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -81,13 +83,22 @@ class CcController extends Controller
     public function actionCreate()
     {
         $model = new Cc();
-
+        
+        $from_request = false;
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
+            if (Yii::$app->request->get('id') !== null) {
+                $cc_request = SuperiorWorklist::find()->where(["superior_id" => \Yii::$app->user->identity->id, "id" => Yii::$app->request->get('id')])->one();
+                if (!empty($cc_request)) {
+                    $model->cc_category_id = $cc_request->cc_category_id;
+                    $model->subordinate_id = $cc_request->subordinate_id;
+                    $from_request = true;
+                }
+            } 
         }
 
         $categories = CcCategory::find()->select(["id", "name"])->all();
@@ -96,7 +107,8 @@ class CcController extends Controller
         return $this->render('create', [
             'model' => $model,
             'categories' => $categories,
-            'subordinates' => $subordinates
+            'subordinates' => $subordinates,
+            'from_request' => $from_request
         ]);
     }
 
