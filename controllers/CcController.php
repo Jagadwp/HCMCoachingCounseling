@@ -43,6 +43,8 @@ class CcController extends Controller
      */
     public function actionIndex()
     {
+        if (\Yii::$app->user->can('showCC')) { //permission superior
+
         $dataProvider = new ActiveDataProvider([
             'query' => Cc::find(),
             /*
@@ -61,6 +63,11 @@ class CcController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    else {
+        \yii::$app->getSession()->setFlash('error','Only Superior Can See CC List');
+        return $this->redirect(['site/index']);
+    }
+    }
 
     /**
      * Displays a single Cc model.
@@ -70,9 +77,16 @@ class CcController extends Controller
      */
     public function actionView($id)
     {
+        if (\Yii::$app->user->can('showCC')) { //permission superior
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+    else {
+        \yii::$app->getSession()->setFlash('error','Only Superior Can See CC List');
+        return $this->redirect(['site/index']);
+    }
     }
 
     /**
@@ -82,6 +96,8 @@ class CcController extends Controller
      */
     public function actionCreate()
     {
+        if (\Yii::$app->user->can('createCC')) { //permission superior
+
         $model = new Cc();
         
         $from_request = false;
@@ -111,6 +127,11 @@ class CcController extends Controller
             'from_request' => $from_request
         ]);
     }
+    else {
+        \yii::$app->getSession()->setFlash('error','Only Superior Can Schedule a CC');
+        return $this->redirect(['site/index']);
+    }
+}
 
     /**
      * Updates an existing Cc model.
@@ -121,6 +142,8 @@ class CcController extends Controller
      */
     public function actionUpdate($id)
     {
+        if (\Yii::$app->user->can('updateCC')) { //permission superior
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -137,6 +160,11 @@ class CcController extends Controller
             'subordinates' => $subordinates
         ]);
     }
+    else {
+        \yii::$app->getSession()->setFlash('error','Only Superior Can Update CCs');
+        return $this->redirect(['site/index']);
+    }
+    }
 
     /**
      * Deletes an existing Cc model.
@@ -147,9 +175,17 @@ class CcController extends Controller
      */
     public function actionDelete($id)
     {
+        if (\Yii::$app->user->can('updateCC')) { //permission superior
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+        
+        }
+    else {
+        \yii::$app->getSession()->setFlash('error','Only Superior Can Delete CCs');
+        return $this->redirect(['site/index']);
+        }
     }
 
     /**
