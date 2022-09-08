@@ -175,7 +175,7 @@ class CcController extends Controller
      */
     public function actionDelete($id)
     {
-        if (\Yii::$app->user->can('updateCC')) { //permission superior
+        if (\Yii::$app->user->can('deleteCC')) { //permission superior
 
         $this->findModel($id)->delete();
 
