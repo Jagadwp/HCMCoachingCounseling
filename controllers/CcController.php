@@ -96,9 +96,8 @@ class CcController extends Controller
      */
     public function actionCreate($id = null)
     {
-        $user = \Yii::$app->user?->identity;
-        
         if (\Yii::$app->user->can('createCC')) { //permission superior
+            $user = \Yii::$app->user?->identity;
             $model = new Cc();
             $from_request = false; // bool to check if actionCreate from request or not
 

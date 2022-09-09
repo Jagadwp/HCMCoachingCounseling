@@ -15,6 +15,7 @@ use yii\db\Expression;
  * @property int|null $superior_id
  * @property int|null $subordinate_id
  * @property int|null $cc_category_id
+ * @property string|null $title
  * @property string|null $link
  * @property string|null $location
  * @property string|null $date
@@ -61,7 +62,7 @@ class Cc extends \yii\db\ActiveRecord
             [['superior_id', 'subordinate_id', 'cc_category_id'], 'default', 'value' => null],
             [['superior_id', 'subordinate_id', 'cc_category_id'], 'integer'],
             [['date', 'time', 'created_at', 'updated_at'], 'safe'],
-            [['link', 'location'], 'string', 'max' => 255],
+            [['title', 'link', 'location'], 'string', 'max' => 255],
             [['superior_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['superior_id' => 'id']],
             [['subordinate_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['subordinate_id' => 'id']],
             // [['cc_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => CcCategory::class, 'targetAttribute' => ['cc_category_id' => 'id']],
@@ -78,6 +79,7 @@ class Cc extends \yii\db\ActiveRecord
             'superior_id' => 'Superior ID',
             'subordinate_id' => 'Subordinate ID',
             'cc_category_id' => 'Cc Category ID',
+            'title' => 'Title',
             'link' => 'Link',
             'location' => 'Location',
             'date' => 'Date',

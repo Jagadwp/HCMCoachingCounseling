@@ -80,30 +80,30 @@ class RequestController extends Controller {
     {
         if (\Yii::$app->user->can('createRequest')) { //permission subordinate
             
-        $model = new SuperiorWorklist();
+            $user = \Yii::$app->user?->identity;
+            $model = new SuperiorWorklist();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        $categories = CcCategory::find()->select(["id", "name"])->all();
-        $user = \Yii::$app->user?->identity;
-        $superior = $user->superior;
-        
-        return $this->render("request", [
-            "model" => $model, 
-            'categories' => $categories, 
-            'superior' => $superior
-        ]);
-    }
-    else {
-        \yii::$app->getSession()->setFlash('error','Only Subordinate Can Request a CC');
-        return $this->redirect(['site/index']);
+            $categories = CcCategory::find()->select(["id", "name"])->all();
+            $superior = $user->superior;
+            
+            return $this->render("request", [
+                "model" => $model, 
+                'categories' => $categories, 
+                'superior' => $superior
+            ]);
         }
+        else {
+            \yii::$app->getSession()->setFlash('error','Only Subordinate Can Request a CC');
+            return $this->redirect(['site/index']);
+            }
     }
 
 

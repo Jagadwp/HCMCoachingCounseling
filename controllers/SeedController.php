@@ -2,11 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\Cc;
+use app\models\SuperiorWorklist;
 use app\models\User;
+use PhpParser\Node\Stmt\Foreach_;
 use yii\web\Controller;
 
 class SeedController extends Controller
 {
+    
     public function actionUser()
     {
         $faker = \Faker\Factory::create('id_ID');
@@ -33,4 +37,29 @@ class SeedController extends Controller
 
         return $this->render('/site/index');
     }
+
+    public function actionFillcctitle()
+    {
+        $supWorklist = SuperiorWorklist::find()
+                        ->select(['cc_id', 'title'])
+                        ->where('cc_id IS NOT NULL')
+                        ->asArray()->all();
+
+        
+        foreach ($supWorklist as $worklist) {
+            $cc = Cc::findOne($worklist['cc_id']);
+            $cc->title = $worklist['title'];
+            $cc->save();
+        }
+
+        // $ccs = Cc::find()->select('id')->where(['title' => ' '])->all();
+        // foreach ($ccs as $cc) {
+        //     $cc->title = "Coaching & Couseling - {$cc->id}";
+        //     $cc->save();
+        // }
+
+        return $this->render('/site/index');
+    }
+
+    
 }
