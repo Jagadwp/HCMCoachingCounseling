@@ -103,7 +103,10 @@ class CcController extends Controller
             $from_request = false; // bool to check if actionCreate from request or not
 
             if (isset($id)) {
-                $cc_request = SuperiorWorklist::find()->where(["superior_id" => \Yii::$app->user->identity->id, "id" => $id])->one();
+                $cc_request = SuperiorWorklist::find()
+                                ->where(["superior_id" => $user->id, "id" => $id])
+                                ->one();
+
                 $from_request = !empty($cc_request) ? true : false;
             }
 
@@ -190,7 +193,7 @@ class CcController extends Controller
             
             }
         else {
-            \yii::$app->getSession()->setFlash('error','Only Superior Can Delete CCs');
+            \yii::$app->getSession()->setFlash('error','Only Superior Can Delete CC');
             return $this->redirect(['site/index']);
         }
     }
