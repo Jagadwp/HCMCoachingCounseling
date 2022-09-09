@@ -111,7 +111,10 @@ class CcController extends Controller
                     $model->subordinate_id = $cc_request->subordinate_id;
                 }
                 if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    $cc_request->cc_id = $model->getPrimaryKey();
+                    if ($cc_request->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
                 }
             } else {
                 $model->loadDefaultValues();
