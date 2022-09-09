@@ -79,14 +79,14 @@ class CcController extends Controller
     {
         if (\Yii::$app->user->can('showCC')) { //permission superior
 
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-    else {
-        \yii::$app->getSession()->setFlash('error','Only Superior Can See CC List');
-        return $this->redirect(['site/index']);
-    }
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else {
+            \yii::$app->getSession()->setFlash('error','Only Superior Can See CC List');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**
@@ -96,36 +96,42 @@ class CcController extends Controller
      */
     public function actionCreate($id = null)
     {
+        $user = \Yii::$app->user?->identity;
+        
         if (\Yii::$app->user->can('createCC')) { //permission superior
             $model = new Cc();
             $from_request = false; // bool to check if actionCreate from request or not
 
             if (isset($id)) {
-                $cc_request = SuperiorWorklist::find()->where(["superior_id" => \Yii::$app->user->identity->id, "id" => $id])->one();
-                $from_request = true;
+                $cc_request = SuperiorWorklist::find()
+                                ->where(["superior_id" => $user->id, "id" => $id])
+                                ->one();
+
+                $from_request = !empty($cc_request) ? true : false;
             }
 
             if ($this->request->isPost && $model->load($this->request->post())) {
-                if (!empty($cc_request)) {
+                if ($from_request) {
                     $model->cc_category_id = $cc_request->cc_category_id;
                     $model->subordinate_id = $cc_request->subordinate_id;
                 }
-                if($model->save()){
-                    $cc_request->cc_id = $model->getPrimaryKey();
-                    if ($cc_request->save()) {
-                        return $this->redirect(['view', 'id' => $model->id]);
-                    }
+                if ($model->save()) {
+                    if ($from_request) {
+                        $cc_request->cc_id = $model->getPrimaryKey();
+                        $cc_request->save();
+                    } 
+                    return $this->redirect(['view', 'id' => $model->id]);
                 }
             } else {
                 $model->loadDefaultValues();
-                if (!empty($cc_request)) {
+                if ($from_request) {
                     $model->cc_category_id = $cc_request->cc_category_id;
                     $model->subordinate_id = $cc_request->subordinate_id;
                 }
             }
 
             $categories = CcCategory::find()->select(["id", "name"])->all();
-            $subordinates = User::find()->select(["id", "name", "email"])->where(["superior_id" => \Yii::$app->user->identity->id])->all();
+            $subordinates = $user->subordinates;
 
             return $this->render('create', [
                 'model' => $model,
@@ -148,28 +154,27 @@ class CcController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (\Yii::$app->user->can('updateCC')) { //permission superior
-
-        $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        $categories = CcCategory::find()->select(["id", "name"])->all();
         $user = \Yii::$app->user?->identity;
-        $subordinates = $user->subordinates;
-        
-        return $this->render('update', [
-            'model' => $model,
-            'categories' => $categories,
-            'subordinates' => $subordinates
-        ]);
-    }
-    else {
-        \yii::$app->getSession()->setFlash('error','Only Superior Can Update CCs');
-        return $this->redirect(['site/index']);
-    }
+
+        if (\Yii::$app->user->can('updateCC')) { //permission superior
+            $model = $this->findModel($id);
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            $categories = CcCategory::find()->select(["id", "name"])->all();
+            $subordinates = $user->subordinates;
+            
+            return $this->render('update', [
+                'model' => $model,
+                'categories' => $categories,
+                'subordinates' => $subordinates
+            ]);
+        } else {
+            \yii::$app->getSession()->setFlash('error','Only Superior Can Update CC');
+            return $this->redirect(['site/index']);
+        }
     }
 
     /**
@@ -182,15 +187,14 @@ class CcController extends Controller
     public function actionDelete($id)
     {
         if (\Yii::$app->user->can('deleteCC')) { //permission superior
+            $this->findModel($id)->delete();
 
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-        
-        }
-    else {
-        \yii::$app->getSession()->setFlash('error','Only Superior Can Delete CCs');
-        return $this->redirect(['site/index']);
+            return $this->redirect(['index']);
+            
+            }
+        else {
+            \yii::$app->getSession()->setFlash('error','Only Superior Can Delete CC');
+            return $this->redirect(['site/index']);
         }
     }
 
