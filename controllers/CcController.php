@@ -102,23 +102,24 @@ class CcController extends Controller
 
             if (isset($id)) {
                 $cc_request = SuperiorWorklist::find()->where(["superior_id" => \Yii::$app->user->identity->id, "id" => $id])->one();
-                $from_request = true;
+                $from_request = !empty($cc_request) ? true : false;
             }
 
             if ($this->request->isPost && $model->load($this->request->post())) {
-                if (!empty($cc_request)) {
+                if ($from_request) {
                     $model->cc_category_id = $cc_request->cc_category_id;
                     $model->subordinate_id = $cc_request->subordinate_id;
                 }
-                if($model->save()){
-                    $cc_request->cc_id = $model->getPrimaryKey();
-                    if ($cc_request->save()) {
-                        return $this->redirect(['view', 'id' => $model->id]);
-                    }
+                if ($model->save()) {
+                    if ($from_request) {
+                        $cc_request->cc_id = $model->getPrimaryKey();
+                        $cc_request->save();
+                    } 
+                    return $this->redirect(['view', 'id' => $model->id]);
                 }
             } else {
                 $model->loadDefaultValues();
-                if (!empty($cc_request)) {
+                if ($from_request) {
                     $model->cc_category_id = $cc_request->cc_category_id;
                     $model->subordinate_id = $cc_request->subordinate_id;
                 }
