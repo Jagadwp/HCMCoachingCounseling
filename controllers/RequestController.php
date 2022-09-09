@@ -78,7 +78,8 @@ class RequestController extends Controller {
      */
     public function actionCreate()
     {
-
+        if (\Yii::$app->user->can('createRequest')) { //permission subordinate
+            
         $model = new SuperiorWorklist();
 
         if ($this->request->isPost) {
@@ -98,6 +99,11 @@ class RequestController extends Controller {
             'categories' => $categories, 
             'superior' => $superior
         ]);
+    }
+    else {
+        \yii::$app->getSession()->setFlash('error','Only Subordinate Can Request a CC');
+        return $this->redirect(['site/index']);
+        }
     }
 
 

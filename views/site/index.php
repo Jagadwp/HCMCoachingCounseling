@@ -4,6 +4,15 @@
 
 $this->title = 'My Yii Application';
 ?>
+
+<!-- display error message -->
+<?php if (Yii::$app->session->hasFlash('error')): ?>
+    <div class="alert alert-danger alert-dismissable">
+         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+         <?= Yii::$app->session->getFlash('error') ?>
+    </div>
+<?php endif; ?>
+
 <div class="site-index">
 
     <div class="jumbotron text-center bg-transparent">

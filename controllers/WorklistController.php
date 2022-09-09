@@ -51,7 +51,9 @@ class WorklistController extends Controller
                 'query' => $query,
             ]);
             $query->andFilterWhere([
-                "superior_id" => \Yii::$app->user->identity->id
+                "superior_id" => \Yii::$app->user->identity->id,
+            ])->andWhere([
+                "is", "cc_id", new \yii\db\Expression('null')
             ]);
             return $this->render("indexSuperior", ["dataProvider" => $dataProvider]);
 

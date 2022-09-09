@@ -15,9 +15,27 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'subordinate_id')->dropDownList(ArrayHelper::map($subordinates, "id", "name"), ["prompt" => "- Select Subordinate -"])->label("Subordinate") ?>
+    <?php if (isset($from_request) && $from_request) : ?>
+        <div class="form-group field-cc-subordinate_id_readonly">
+            <label class="control-label" for="cc-subordinate_id_readonly">Subordinate</label>
+            <input type="text" id="cc-subordinate_id_readonly" class="form-control" name="cc-subordinate_id_readonly" value="<?= $model->subordinate->name ?>" disabled>
+        </div>
 
-    <?= $form->field($model, 'cc_category_id')->dropDownList(ArrayHelper::map($categories, "id", "name"), ['prompt' => '- Select Type -'])->label("Cc Category") ?>
+        <div class="form-group field-cc-cc_category_id_readonly">
+            <label class="control-label" for="cc-cc_category_id_readonly">CC Category</label>
+            <input type="text" id="cc-cc_category_id_readonly" class="form-control" name="cc-cc_category_id_readonly" value="<?= $model->category->name ?>" disabled>
+        </div>
+
+        <?= $form->field($model, 'subordinate_id')->textInput()->hiddenInput()->label(false) ?>
+        <?= $form->field($model, 'cc_category_id')->textInput()->hiddenInput()->label(false) ?>
+
+    <?php else : ?>
+
+        <?= $form->field($model, 'subordinate_id')->dropDownList(ArrayHelper::map($subordinates, "id", "name"), ["prompt" => "- Select Subordinate -"])->label("Subordinate") ?>
+
+        <?= $form->field($model, 'cc_category_id')->dropDownList(ArrayHelper::map($categories, "id", "name"), ['prompt' => '- Select Type -'])->label("Cc Category") ?>
+
+    <?php endif; ?>
 
     <?= $form->field($model, 'link')->textInput(['maxlength' => true])->input("text", ["placeholder" => "Enter CC link"]) ?>
 

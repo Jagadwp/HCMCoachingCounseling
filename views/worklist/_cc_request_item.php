@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Url;
 
 ?>
 
@@ -20,7 +21,7 @@
     <div class="icon">
         <i class="fa fa-pager"></i>
     </div>
-    <a href="#" class="small-box-footer">
-        More detail <i class="fa fa-arrow-circle-right"></i>
+    <a href="<?= Url::to(["/cc/create", "id" => $model->id]) ?>" class="small-box-footer">
+        Create CC for this request <i class="fa fa-arrow-circle-right"></i>
     </a>
 </div>
