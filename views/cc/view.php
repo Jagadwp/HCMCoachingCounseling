@@ -13,8 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cc-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= $model->title ?></h1>
 
+    <?php if(\Yii::$app->user->can('subordinate')): ?>
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -25,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+    <?php endif ?>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -54,5 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
         ],
     ]) ?>
+
+    <h3 class="mt-3">Result: </h3>
 
 </div>

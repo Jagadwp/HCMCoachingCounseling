@@ -43,7 +43,7 @@ class CcController extends Controller
      */
     public function actionIndex()
     {
-        if (\Yii::$app->user->can('showCC')) { //permission superior
+        if (\Yii::$app->user->can('showCC') || \Yii::$app->user->can('subordinate')) { //permission superior
 
         $dataProvider = new ActiveDataProvider([
             'query' => Cc::find(),
@@ -77,7 +77,7 @@ class CcController extends Controller
      */
     public function actionView($id)
     {
-        if (\Yii::$app->user->can('showCC')) { //permission superior
+        if (\Yii::$app->user->can('showCC') || \Yii::$app->user->can('subordinate')) { //permission superior
 
             return $this->render('view', [
                 'model' => $this->findModel($id),

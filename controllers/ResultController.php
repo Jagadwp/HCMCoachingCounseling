@@ -66,13 +66,13 @@ class ResultController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id = null, $cc_id = null)
     {
         if (\Yii::$app->user->can('showCC')) { //permission superior
-
             return $this->render('view', [
-                'model' => $this->findModel($id),
+                'model' => $id === null ?  $this->findModel($id) : $this->findModelByCcId($cc_id),
             ]);
+
         }
         else {
             \yii::$app->getSession()->setFlash('error','Only Superior can see the specific result');
@@ -90,6 +90,15 @@ class ResultController extends Controller
     protected function findModel($id)
     {
         if (($model = CcResult::findOne(['id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    protected function findModelByCcId($cc_id)
+    {
+        if (($model = CcResult::findOne(["cc_id" => $cc_id])) !== null) {
             return $model;
         }
 
