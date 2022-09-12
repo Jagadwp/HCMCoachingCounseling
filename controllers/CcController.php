@@ -126,6 +126,7 @@ class CcController extends Controller
                 if ($from_request) {
                     $model->cc_category_id = $cc_request->cc_category_id;
                     $model->subordinate_id = $cc_request->subordinate_id;
+                    $model->title = $cc_request->title;
                 }
             }
 

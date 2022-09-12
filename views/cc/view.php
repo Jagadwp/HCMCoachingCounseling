@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'CC Category',
                 'value' => $model->category->name
             ],
+            'title',
             'link',
             'location',
             'date',
