@@ -6,22 +6,23 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\SuperiorWorklist */
 
-$this->title = $model->title;
+$this->title = "CC Result";
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="superiorworklist-view">
+<div class="result-view">
 
-    <h1><?= $model->title ?></h1>
+    <h1>CC Result</h1>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'superior_id',
-            'subordinate_id',
-            'cc_category_id',
-            'title',
+            'cc_id',
+            'condition',
+            'problem',
+            'note',
+            'result',
             'created_at',
             'updated_at',
         ],

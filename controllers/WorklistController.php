@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\SubordinateWorklist;
 use app\models\SuperiorWorklist;
+use app\models\CC;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -46,16 +47,21 @@ class WorklistController extends Controller
     public function actionIndex()
     {
         if (\Yii::$app->user->identity->role === "superior") {
-            $query = SuperiorWorklist::find();
             $dataProvider = new ActiveDataProvider([
-                'query' => $query,
+                'query' =>  SuperiorWorklist::find()->andFilterWhere([
+                    "superior_id" => \Yii::$app->user->identity->id,
+                ])->andWhere([
+                    "is", "cc_id", new \yii\db\Expression('null')
+                ])
             ]);
-            $query->andFilterWhere([
-                "superior_id" => \Yii::$app->user->identity->id,
-            ])->andWhere([
-                "is", "cc_id", new \yii\db\Expression('null')
+
+            $dataProviderCC = new ActiveDataProvider([
+                'query' => CC::find()->andFilterWhere([
+                    "superior_id" => \Yii::$app->user->identity->id
+                ]),
             ]);
-            return $this->render("indexSuperior", ["dataProvider" => $dataProvider]);
+
+            return $this->render("indexSuperior", ["dataProvider" => $dataProvider, "dataProviderCC" => $dataProviderCC]);
 
         } else {
             // $query = SubordinateWorklist::find();

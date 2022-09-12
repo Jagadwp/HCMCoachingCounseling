@@ -40,17 +40,7 @@ class RequestController extends Controller {
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => SuperiorWorklist::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
+            'query' => SuperiorWorklist::find()
         ]);
 
         return $this->render('index', [
@@ -93,10 +83,10 @@ class RequestController extends Controller {
 
             $categories = CcCategory::find()->select(["id", "name"])->all();
             $superior = $user->superior;
-            
+
             return $this->render("request", [
-                "model" => $model, 
-                'categories' => $categories, 
+                "model" => $model,
+                'categories' => $categories,
                 'superior' => $superior
             ]);
         }

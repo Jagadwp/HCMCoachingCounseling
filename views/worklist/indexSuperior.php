@@ -29,7 +29,22 @@ $this->params['breadcrumbs'][] = $this->title;
     </section>
 
     <section class="cc_request mt-4">
-        <h2 class="mb-0">Upcoming CC</h2>
+        <h2 class="mb-0">Running CC</h2>
+        <?=
+        ListView::widget([
+            "dataProvider" => $dataProviderCC,
+            // "filterModel" => $searchModel,
+            "itemView" => "_cc_running_item",
+            "options" => ["class" => "row"],
+            "itemOptions" => ["class" => "col-md-6 col-lg-4"],
+            "summaryOptions" => ["class" => "col-12 mb-3"],
+            "emptyTextOptions" => ["class" => "col-12 mb-3"]
+        ])
+        ?>
+    </section>
+
+    <section class="cc_revision mt-4">
+        <h2 class="mb-0">Need Revision</h2>
         <div class="row">
             <div class="col-12 mb-3">Showing <b>0-0</b> of <b>0</b> items.</div>
             <div class="col-12">
@@ -37,4 +52,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </section>
+
 </div>

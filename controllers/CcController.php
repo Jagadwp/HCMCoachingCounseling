@@ -112,6 +112,7 @@ class CcController extends Controller
             if ($this->request->isPost && $model->load($this->request->post())) {
                 if ($from_request) {
                     $model->cc_category_id = $cc_request->cc_category_id;
+                    $model->title = $cc_request->title;
                     $model->subordinate_id = $cc_request->subordinate_id;
                 }
                 if ($model->save()) {

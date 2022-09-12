@@ -18,5 +18,4 @@ $this->params['breadcrumbs'][] = $this->title;
         "subordinates" => $subordinates,
         "from_request" => $from_request
     ]) ?>
-
 </div>
