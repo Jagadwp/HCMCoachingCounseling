@@ -52,7 +52,7 @@ class ResultController extends Controller
             ]);
 
         } else {
-            \yii::$app->getSession()->setFlash('error', 'Only Superior Can Schedule a CC');
+            \yii::$app->getSession()->setFlash('error', 'Only Superior Can Create Result');
             return $this->redirect(['site/index']);
         }
 
@@ -75,7 +75,7 @@ class ResultController extends Controller
             ]);
         }
         else {
-            \yii::$app->getSession()->setFlash('error','Only Superior Can See CC List');
+            \yii::$app->getSession()->setFlash('error','Only Superior can see the specific result');
             return $this->redirect(['site/index']);
         }
     }
