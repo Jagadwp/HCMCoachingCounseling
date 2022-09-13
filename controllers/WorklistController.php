@@ -47,6 +47,23 @@ class WorklistController extends Controller
     public function actionIndex()
     {
         if (\Yii::$app->user->identity->role === "superior") {
+            $dataProviderRequest = new ActiveDataProvider([
+                'query' =>  SuperiorWorklist::find()->andFilterWhere([
+                    "superior_id" => \Yii::$app->user->identity->id,
+                ])->andWhere([
+                    "is", "cc_id", new \yii\db\Expression('null')
+                ])
+            ]);
+
+            $dataProviderCC = new ActiveDataProvider([
+                'query' => CC::find()->andFilterWhere([
+                    "superior_id" => \Yii::$app->user->identity->id
+                ]),
+            ]);
+
+            return $this->render("indexSuperior", ["dataProviderRequest" => $dataProviderRequest, "dataProviderCC" => $dataProviderCC]);
+
+        } else {
             $dataProvider = new ActiveDataProvider([
                 'query' =>  SuperiorWorklist::find()->andFilterWhere([
                     "superior_id" => \Yii::$app->user->identity->id,
@@ -61,17 +78,7 @@ class WorklistController extends Controller
                 ]),
             ]);
 
-            return $this->render("indexSuperior", ["dataProvider" => $dataProvider, "dataProviderCC" => $dataProviderCC]);
-
-        } else {
-            // $query = SubordinateWorklist::find();
-            // $dataProvider = new ActiveDataProvider([
-            //     'query' => $query,
-            // ]);
-            // $query->andFilterWhere([
-            //     "subordinate_id" => \Yii::$app->user->identity->id
-            // ]);
-            return $this->render("//site/underdevelopment", ["title" => "Worklist (Subordinate)"]);
+            return $this->render("indexSubordinate", ["dataProvider" => $dataProvider, "dataProviderCC" => $dataProviderCC]);
         }
     }
 

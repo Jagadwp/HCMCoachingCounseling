@@ -4,7 +4,7 @@
 
 use yii\widgets\ListView;
 
-$this->title = 'Worklists (Superior)';
+$this->title = 'Worklists (Subordinate)';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <h2 class="mb-0">CC Request</h2>
         <?=
         ListView::widget([
-            "dataProvider" => $dataProviderRequest,
+            "dataProvider" => $dataProvider,
             // "filterModel" => $searchModel,
             "itemView" => "_cc_request_item",
             "options" => ["class" => "row"],
