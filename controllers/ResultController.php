@@ -68,9 +68,10 @@ class ResultController extends Controller
      */
     public function actionView($id = null, $cc_id = null)
     {
+
         if (\Yii::$app->user->can('showCC')) { //permission superior
             return $this->render('view', [
-                'model' => $id === null ?  $this->findModel($id) : $this->findModelByCcId($cc_id),
+                'model' => $id !== null ?  $this->findModel($id) : $this->findModelByCcId($cc_id),
             ]);
 
         }
