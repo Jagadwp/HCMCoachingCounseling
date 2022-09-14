@@ -41,7 +41,7 @@ class ResultController extends Controller
             if ($this->request->isPost) {
                 $model->cc_id = $id;
                 if ($model->load($this->request->post()) && $model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    return $this->redirect(['view', 'id' => $model->cc_id]);
                 }
             } else {
                 $model->loadDefaultValues();
@@ -66,12 +66,11 @@ class ResultController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id = null, $cc_id = null)
+    public function actionView($id = null)
     {
-
         if (\Yii::$app->user->can('showCC')) { //permission superior
             return $this->render('view', [
-                'model' => $id !== null ?  $this->findModel($id) : $this->findModelByCcId($cc_id),
+                'model' => $id === null ?  $this->findModel($id) : $this->findModelByCcId($id),
             ]);
 
         }
@@ -82,9 +81,36 @@ class ResultController extends Controller
     }
 
     /**
+     * Accept or Reject a result.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return string|\yii\web\Response for testing
+     * @throws NotFoundHttpException for testing
+     */
+    public function actionRespond($id, $response) {
+
+        if (\Yii::$app->user->identity->role === "subordinate") {
+
+            $model = $this->findModelByCcId($id);
+
+            if ($this->request->isPost && $model->status == null) {
+
+                if ($response) {$model->status = true;}
+                else {$model->status = false;}
+                $model->save();
+                return $this->redirect(['./cc/view', 'id' => $model->cc_id]);
+            }
+
+            return $this->redirect(['site/index']);
+        } else {
+            throw new NotFoundHttpException("Page might be not exist or you don't have permission to view it");
+        }
+
+    }
+
+    /**
      * Finds the Cc model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
+     * @param int|null $id ID
      * @return CcResult the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -97,9 +123,9 @@ class ResultController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    protected function findModelByCcId($cc_id)
+    protected function findModelByCcId($id)
     {
-        if (($model = CcResult::findOne(["cc_id" => $cc_id])) !== null) {
+        if (($model = CcResult::findOne(["cc_id" => $id])) !== null) {
             return $model;
         }
 

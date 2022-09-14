@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Account;
 use app\models\Cc;
 use app\models\CcCategory;
+use app\models\CcResult;
 use app\models\SuperiorWorklist;
 use app\models\User;
 use Yii;
@@ -81,6 +82,7 @@ class CcController extends Controller
 
             return $this->render('view', [
                 'model' => $this->findModel($id),
+                'modelResult' => $this->findResultModel($id)
             ]);
         }
         else {
@@ -217,4 +219,27 @@ class CcController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+
+    /**
+     * Finds the CcResult model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param int $id ID
+     * @return CcResult the loaded model
+     * @return null if the model cannot be found
+     */
+    protected function findResultModel($id)
+    {
+        if (($model = CcResult::findOne([
+                'cc_id' => $id
+            ])) !== null) {
+            return $model;
+        } else {
+            return null;
+        }
+
+    }
+
+
 }
