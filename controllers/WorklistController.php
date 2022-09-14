@@ -48,42 +48,48 @@ class WorklistController extends Controller
      */
     public function actionIndex()
     {
+        $userId = \Yii::$app->user->identity?->id;
+
         if (\Yii::$app->user->identity->role === "superior") {
             $dataProviderRequest = new ActiveDataProvider([ // requested cc
-                'query' =>  SuperiorWorklist::find()->andFilterWhere([
-                    "superior_id" => \Yii::$app->user->identity->id,
-                ])->andWhere([
-                    "is", "cc_id", new \yii\db\Expression('null')
-                ])
+                'query' =>  SuperiorWorklist::find()
+                                ->andFilterWhere(["superior_id" => $userId,])
+                                ->andWhere(["is", "cc_id", new \yii\db\Expression('null')])
             ]);
             
             $subQueryCCResult = CcResult::find()->select("cc_id");
             $dataProviderCC = new ActiveDataProvider([ // cc with no result
                 'query' => CC::find()
-                    ->where(["not in", "id", $subQueryCCResult])
-                    ->andFilterWhere(["superior_id" => \Yii::$app->user->identity->id])
+                            ->where(["not in", "id", $subQueryCCResult])
+                            ->andFilterWhere(["superior_id" => $userId])
             ]);
 
-            return $this->render("indexSuperior", ["dataProviderRequest" => $dataProviderRequest, "dataProviderCC" => $dataProviderCC]);
+            return $this->render("indexSuperior", [
+                "dataProviderRequest" => $dataProviderRequest, 
+                "dataProviderCC" => $dataProviderCC
+            ]);
 
         } else {
             $subQueryCCResult = CcResult::find()->select("cc_id");
             $dataProviderCC = new ActiveDataProvider([ // cc with no result
                 'query' => CC::find()
-                ->where(["not in", "id", $subQueryCCResult])
-                ->andFilterWhere(["subordinate_id" => \Yii::$app->user->identity->id]),
+                            ->where(["not in", "id", $subQueryCCResult])
+                            ->andFilterWhere(["subordinate_id" => $userId]),
             ]);
             
             $dataProviderCCResult = new ActiveDataProvider([ // cc that with result
-                'query' =>  CC::find()
-                ->innerJoin('cc_result', 'cc_result.cc_id = cc.id')
-                ->andFilterWhere(["subordinate_id" => \Yii::$app->user->identity->id])
-                // ->all()
+                'query' => CC::find()
+                            ->innerJoin('cc_result', 'cc_result.cc_id = cc.id')
+                            ->andFilterWhere(["subordinate_id" => $userId])
+                            // ->all()
             ]);
 
             // dd($dataProviderCCResult);
 
-            return $this->render("indexSubordinate", ["dataProviderCC" => $dataProviderCC, "dataProviderCCResult" => $dataProviderCCResult]);
+            return $this->render("indexSubordinate", [
+                "dataProviderCC" => $dataProviderCC, 
+                "dataProviderCCResult" => $dataProviderCCResult
+            ]);
         }
     }
 

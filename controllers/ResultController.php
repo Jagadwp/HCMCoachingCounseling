@@ -93,9 +93,7 @@ class ResultController extends Controller
             $model = $this->findModelByCcId($id);
 
             if ($this->request->isPost && $model->status == null) {
-
-                if ($response) {$model->status = true;}
-                else {$model->status = false;}
+                ($response) ? $model->status = true : $model->status = false;
                 $model->save();
                 return $this->redirect(['./cc/view', 'id' => $model->cc_id]);
             }

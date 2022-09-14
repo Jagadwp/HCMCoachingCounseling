@@ -47,7 +47,9 @@ class CcController extends Controller
         if (\Yii::$app->user->can('showCC') || \Yii::$app->user->can('subordinate')) { //permission superior
 
         $dataProvider = new ActiveDataProvider([
-            'query' =>  Cc::find()->where([\Yii::$app->user->can('subordinate') ? "subordinate_id" : "superior_id" => Yii::$app->user->identity->id]) // for subordinate
+            'query' =>  Cc::find()->where([\Yii::$app->user->can('subordinate') 
+                            ? "subordinate_id" 
+                            : "superior_id" => Yii::$app->user->identity->id]) // for subordinate
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -210,9 +212,10 @@ class CcController extends Controller
      */
     protected function findModel($id)
     {
+        $userId = Yii::$app->user->identity?->id;
         if (($model = Cc::findOne([
                 'id' => $id, 
-                \Yii::$app->user->can('subordinate') ? "subordinate_id" : "superior_id" => Yii::$app->user->identity->id
+                \Yii::$app->user->can('subordinate') ? "subordinate_id" : "superior_id" => $userId
             ])) !== null) {
             return $model;
         }
