@@ -45,31 +45,43 @@ class CcController extends Controller
     public function actionIndex()
     {
         if (\Yii::$app->user->can('showCC') || \Yii::$app->user->can('subordinate')) { //permission superior
+            $roleId = \Yii::$app->user->can('subordinate') ? "subordinate_id" : "superior_id";
 
-        $dataProvider = new ActiveDataProvider([
-            'query' =>  Cc::find()->where([\Yii::$app->user->can('subordinate') 
-                            ? "subordinate_id" 
-                            : "superior_id" => Yii::$app->user->identity->id]) // for subordinate
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
+            $dataProvider = new ActiveDataProvider([
+                'query' =>  Cc::find()->where([$roleId => Yii::$app->user->identity->id]) // for subordinate
+            ]);
+
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            \yii::$app->getSession()->setFlash('error','Only Superior Can See CC List');
+            return $this->redirect(['site/index']);
+        }
+    }
+
+    /**
+     * Lists all Cc History.
+     *
+     * @return string
+     */
+    public function actionHistory()
+    {
+        $user = \Yii::$app->user->identity;
+        $userRole = $user?->role; 
+        $roleId = ($userRole === 'subordinate')  ? 'subordinate_id' : 'superior_id';
+        $subQueryCCResult = CcResult::find()->select("cc_id")->where(['status' => true]);
+
+        $dataProviderCC = new ActiveDataProvider([ // cc with result
+            'query' => CC::find()
+                        ->where(["in", "id", $subQueryCCResult])
+                        ->andWhere([$roleId => $user->id])
+        ]);
+        
+        return $this->render('history', [
+            "dataProviderCC" => $dataProviderCC
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-    else {
-        \yii::$app->getSession()->setFlash('error','Only Superior Can See CC List');
-        return $this->redirect(['site/index']);
-    }
     }
 
     /**
@@ -81,7 +93,6 @@ class CcController extends Controller
     public function actionView($id)
     {
         if (\Yii::$app->user->can('showCC') || \Yii::$app->user->can('subordinate')) { //permission superior
-
             return $this->render('view', [
                 'model' => $this->findModel($id),
                 'modelResult' => $this->findResultModel($id)
@@ -212,11 +223,11 @@ class CcController extends Controller
      */
     protected function findModel($id)
     {
+        $roleId = \Yii::$app->user->can('subordinate') ? "subordinate_id" : "superior_id";
+
         $userId = Yii::$app->user->identity?->id;
-        if (($model = Cc::findOne([
-                'id' => $id, 
-                \Yii::$app->user->can('subordinate') ? "subordinate_id" : "superior_id" => $userId
-            ])) !== null) {
+        
+        if (($model = Cc::findOne(['id' => $id, $roleId => $userId])) !== null) {
             return $model;
         }
 

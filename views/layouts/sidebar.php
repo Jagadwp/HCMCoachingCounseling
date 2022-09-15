@@ -68,6 +68,7 @@ use yii\helpers\Url;
                     ['label' => 'Worklists',  'icon' => 'table', 'url' => ["/worklist"], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Requested', 'icon' => 'book', 'url' => ['#'], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'CC', 'icon' => 'book', 'url' => ['/cc/index'], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'History', 'icon' => 'clock', 'url' => ['/cc/history'], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
                     ['label' => 'Logout','url' => ['/site/logout'],  'visible' => !Yii::$app->user->isGuest, 
                     'template'=>'<a href="{url}" class="nav-link" data-method="post"> <i class="nav-icon fas fa-sign-out-alt"></i> {label}</a>'],
