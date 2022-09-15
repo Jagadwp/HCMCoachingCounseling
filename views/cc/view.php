@@ -73,26 +73,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
+        <?php if(\Yii::$app->user->can('subordinate') && $modelResult->status == null): ?>
+            <p>
+                <?= Html::a('Accept', ['./result/respond', 'id' => $modelResult->cc_id, 'response' => true], [
+                    'class' => 'btn btn-success',
+                    'data' => [
+                        'confirm' => 'Are you sure you want to accept this result?',
+                        'method' => 'post',
+                    ],
+                ]) ?>
+                <?= Html::a('Reject', ['./result/respond', 'id' => $modelResult->cc_id, 'response' => false], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => 'Are you sure you want to reject this result?',
+                        'method' => 'post',
+                    ],
+                ]) ?>
+            </p>
+        <?php endif ?>
     <?php endif; ?>
-
-    <?php if(\Yii::$app->user->can('subordinate') && $modelResult->status == null): ?>
-        <p>
-            <?= Html::a('Accept', ['./result/respond', 'id' => $modelResult->cc_id, 'response' => true], [
-                'class' => 'btn btn-success',
-                'data' => [
-                    'confirm' => 'Are you sure you want to accept this result?',
-                    'method' => 'post',
-                ],
-            ]) ?>
-            <?= Html::a('Reject', ['./result/respond', 'id' => $modelResult->cc_id, 'response' => false], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => 'Are you sure you want to reject this result?',
-                    'method' => 'post',
-                ],
-            ]) ?>
-        </p>
-    <?php endif ?>
+    
 
 
 </div>
