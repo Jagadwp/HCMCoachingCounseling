@@ -54,13 +54,13 @@ class WorklistController extends Controller
             $dataProviderRequest = new ActiveDataProvider([ // requested cc
                 'query' =>  SuperiorWorklist::find()
                                 ->andFilterWhere(["superior_id" => $userId,])
-                                ->andWhere(["is", "cc_id", new \yii\db\Expression('null')])
+                                ->andWhere(["IS", "cc_id", new \yii\db\Expression('null')])
             ]);
             
             $subQueryCCResult = CcResult::find()->select("cc_id");
             $dataProviderCC = new ActiveDataProvider([ // cc with no result
                 'query' => Cc::find()
-                            ->where(["not in", "id", $subQueryCCResult])
+                            ->where(["NOT IN", "id", $subQueryCCResult])
                             ->andFilterWhere(["superior_id" => $userId])
             ]);
 
@@ -73,13 +73,13 @@ class WorklistController extends Controller
             $subQueryCCResult = CcResult::find()->select("cc_id");
             $dataProviderCC = new ActiveDataProvider([ // cc with no result
                 'query' => Cc::find()
-                            ->where(["not in", "id", $subQueryCCResult])
+                            ->where(["NOT IN", "id", $subQueryCCResult])
                             ->andFilterWhere(["subordinate_id" => $userId]),
             ]);
             
-            $dataProviderCCResult = new ActiveDataProvider([ // cc that with result
+            $dataProviderCCResult = new ActiveDataProvider([ // cc that with result (not done)
                 'query' => Cc::find()
-                            ->innerJoin('cc_result', 'cc_result.cc_id = cc.id')
+                            ->innerJoin('cc_result', 'cc_result.cc_id = cc.id AND cc_result.status IS NOT true')
                             ->andFilterWhere(["subordinate_id" => $userId])
                             // ->all()
             ]);
