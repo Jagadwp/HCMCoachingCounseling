@@ -4,7 +4,7 @@
 
 use yii\widgets\ListView;
 
-$this->title = 'Worklists (Superior)';
+$this->title = 'Worklists (Subordinate)';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
@@ -12,21 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <h1 class="display-5">Welcome, <?= \Yii::$app->user->identity->name ?></h1>
         <p class="">Here are your worklist:</p>
     </div>
-
-    <section class="cc_request">
-        <h2 class="mb-0">CC Request</h2>
-        <?=
-        ListView::widget([
-            "dataProvider" => $dataProviderRequest,
-            // "filterModel" => $searchModel,
-            "itemView" => "_cc_request_item",
-            "options" => ["class" => "row"],
-            "itemOptions" => ["class" => "col-md-6 col-lg-4"],
-            "summaryOptions" => ["class" => "col-12 mb-3"],
-            "emptyTextOptions" => ["class" => "col-12 mb-3"]
-        ])
-        ?>
-    </section>
 
     <section class="cc_request mt-4">
         <h2 class="mb-0">Running CC</h2>
@@ -43,7 +28,23 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </section>
 
-    <section class="cc_revision mt-4">
+    <section class="cc_request mt-4">
+        <h2 class="mb-0">CC with Result</h2>
+        <?=
+        ListView::widget([
+            "dataProvider" => $dataProviderCCResult,
+            // "filterModel" => $searchModel,
+            "itemView" => "_cc_running_item",
+            "options" => ["class" => "row"],
+            "itemOptions" => ["class" => "col-md-6 col-lg-4"],
+            "summaryOptions" => ["class" => "col-12 mb-3"],
+            "emptyTextOptions" => ["class" => "col-12 mb-3"],
+            "viewParams" => ["theme" => "warning"]
+        ])
+        ?>
+    </section>
+
+    <!-- <section class="cc_revision mt-4">
         <h2 class="mb-0">Need Revision</h2>
         <div class="row">
             <div class="col-12 mb-3">Showing <b>0-0</b> of <b>0</b> items.</div>
@@ -51,6 +52,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 - No Items -
             </div>
         </div>
-    </section>
+    </section> -->
 
 </div>

@@ -37,11 +37,11 @@ use yii\widgets\ActiveForm;
 
     <?php endif; ?>
 
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true])->input("text", ["placeholder" => "Enter CC title"]) ?>
+
     <?= $form->field($model, 'link')->textInput(['maxlength' => true])->input("text", ["placeholder" => "Enter CC link"]) ?>
 
     <?= $form->field($model, 'location')->textInput(['maxlength' => true])->input("text", ["placeholder" => "Enter CC Location (Regular only)"]) ?>
-
-    <!-- <?= $form->field($model, 'date')->textInput() ?> -->
 
     <div class="mb-3 form-group field-cc_date">
         <?php
@@ -92,6 +92,9 @@ use yii\widgets\ActiveForm;
             }
         }
         window.addEventListener('load', (event) => {
+            const cc_title = document.getElementById("cc-title")
+            if(cc_title.value === " ") cc_title.value = ""
+
             toggleCcLocation()
             document.getElementById("cc-cc_category_id").addEventListener("change", (e) => {
                 toggleCcLocation()

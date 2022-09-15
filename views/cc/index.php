@@ -15,9 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?php if(\Yii::$app->user->can('createCC')): ?>
     <p>
         <?= Html::a('Create Cc', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php endif; ?>
+
 
 
     <?= GridView::widget([
@@ -41,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'CC Category',
                 'value' => 'category.name'
             ],
+            'title',
             'link',
             'location',
             'date',
@@ -49,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'updated_at',
             [
                 'class' => ActionColumn::className(),
+                "template" => \Yii::$app->user->can('superior') ? "{view} {update} {delete}" : "{view}",
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }

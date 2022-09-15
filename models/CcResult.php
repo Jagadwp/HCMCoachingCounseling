@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "cc_result".
@@ -13,6 +16,7 @@ use Yii;
  * @property string|null $problem
  * @property string|null $note
  * @property string $result
+ * @property boolean $status
  * @property string|null $created_at
  * @property string|null $updated_at
  *
@@ -28,6 +32,16 @@ class CcResult extends \yii\db\ActiveRecord
         return 'cc_result';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'value' => new Expression('NOW()'),
+            ]
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -39,6 +53,7 @@ class CcResult extends \yii\db\ActiveRecord
             [['condition', 'problem', 'note', 'result'], 'string'],
             [['result'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
+            [['status'], 'boolean'],
             [['cc_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cc::class, 'targetAttribute' => ['cc_id' => 'id']],
         ];
     }
@@ -55,6 +70,7 @@ class CcResult extends \yii\db\ActiveRecord
             'problem' => 'Problem',
             'note' => 'Note',
             'result' => 'Result',
+            'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
