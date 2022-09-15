@@ -73,7 +73,7 @@ class CcController extends Controller
         $subQueryCCResult = CcResult::find()->select("cc_id")->where(['status' => true]);
 
         $dataProviderCC = new ActiveDataProvider([ // cc with result
-            'query' => CC::find()
+            'query' => Cc::find()
                         ->where(["in", "id", $subQueryCCResult])
                         ->andWhere([$roleId => $user->id])
         ]);
