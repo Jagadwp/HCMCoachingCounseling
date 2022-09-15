@@ -95,7 +95,7 @@ class ResultController extends Controller
             if ($this->request->isPost && $model->status == null) {
                 ($response) ? $model->status = true : $model->status = false;
                 $model->save();
-                return $this->redirect(['./cc/view', 'id' => $model->cc_id]);
+                return $this->redirect('/worklist');
             }
 
             return $this->redirect(['site/index']);
