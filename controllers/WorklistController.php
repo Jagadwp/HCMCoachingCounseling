@@ -64,9 +64,16 @@ class WorklistController extends Controller
                             ->andFilterWhere(["superior_id" => $userId])
             ]);
 
+            $dataProviderCCRevision = new ActiveDataProvider([ // cc with result that need revision
+                'query' => CC::find()
+                            ->where(["IN", "id", $subQueryCCResult->andFilterWhere(["status" => false])])
+                            ->andFilterWhere(["superior_id" => $userId])
+            ]);
+
             return $this->render("indexSuperior", [
                 "dataProviderRequest" => $dataProviderRequest, 
-                "dataProviderCC" => $dataProviderCC
+                "dataProviderCC" => $dataProviderCC,
+                "dataProviderCCRevision" => $dataProviderCCRevision
             ]);
 
         } else {

@@ -60,7 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <?php if ($modelResult): ?>
-    <h3 class="mt-3">Result: </h3>
+    <h3 class="mt-4">Result: </h3>
+        <?php if($modelResult->status !== null): ?>
+            <p class="text-<?= $modelResult->status ? "success" : "danger" ?>">(<?= $modelResult->status ? "Accepted" : "Rejected" ?>)</p>
+        <?php endif; ?>
         <?= DetailView::widget([
             'model' => $modelResult,
             'attributes' => [
@@ -73,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
-        <?php if(\Yii::$app->user->can('subordinate') && $modelResult->status == null): ?>
+        <?php if(\Yii::$app->user->can('subordinate') && $modelResult->status === null): ?>
             <p>
                 <?= Html::a('Accept', ['./result/respond', 'id' => $modelResult->cc_id, 'response' => true], [
                     'class' => 'btn btn-success',
