@@ -40,7 +40,7 @@ use yii\helpers\Url;
                 Add Result for this CC <i class="fa fa-arrow-circle-right"></i>
             </a>
         <?php elseif(isset($action) && $action === "update_result") : ?>
-            <a href="<?= Url::to(["#"]) ?>" class="small-box-footer">
+            <a href="<?= Url::to(["/result/update", "id" => $model->id]) ?>" class="small-box-footer">
                 Update result for this CC <i class="fa fa-arrow-circle-right"></i>
             </a>
         <?php else: ?>

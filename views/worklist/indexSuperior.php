@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </section>
 
     <section class="cc_revision mt-4">
-        <h2 class="mb-0">Need  Revision</h2>
+        <h2 class="mb-0">Need Revision</h2>
         <?=
         ListView::widget([
             "dataProvider" => $dataProviderCCRevision,

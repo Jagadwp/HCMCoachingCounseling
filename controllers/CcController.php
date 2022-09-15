@@ -224,7 +224,7 @@ class CcController extends Controller
     {
         $roleId = \Yii::$app->user->can('subordinate') ? "subordinate_id" : "superior_id";
 
-        $userId = Yii::$app->user->identity?->id;
+        $userId = \Yii::$app->user->identity?->id;
         
         if (($model = Cc::findOne(['id' => $id, $roleId => $userId])) !== null) {
             return $model;
