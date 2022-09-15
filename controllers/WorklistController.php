@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\models\SubordinateWorklist;
 use app\models\SuperiorWorklist;
-use app\models\CC;
+use app\models\Cc;
 use app\models\CcResult;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
@@ -59,7 +59,7 @@ class WorklistController extends Controller
             
             $subQueryCCResult = CcResult::find()->select("cc_id");
             $dataProviderCC = new ActiveDataProvider([ // cc with no result
-                'query' => CC::find()
+                'query' => Cc::find()
                             ->where(["not in", "id", $subQueryCCResult])
                             ->andFilterWhere(["superior_id" => $userId])
             ]);
@@ -72,13 +72,13 @@ class WorklistController extends Controller
         } else {
             $subQueryCCResult = CcResult::find()->select("cc_id");
             $dataProviderCC = new ActiveDataProvider([ // cc with no result
-                'query' => CC::find()
+                'query' => Cc::find()
                             ->where(["not in", "id", $subQueryCCResult])
                             ->andFilterWhere(["subordinate_id" => $userId]),
             ]);
             
             $dataProviderCCResult = new ActiveDataProvider([ // cc that with result
-                'query' => CC::find()
+                'query' => Cc::find()
                             ->innerJoin('cc_result', 'cc_result.cc_id = cc.id')
                             ->andFilterWhere(["subordinate_id" => $userId])
                             // ->all()
