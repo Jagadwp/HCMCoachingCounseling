@@ -70,11 +70,10 @@ class CcController extends Controller
         $user = \Yii::$app->user->identity;
         $userRole = $user?->role; 
         $roleId = ($userRole === 'subordinate')  ? 'subordinate_id' : 'superior_id';
-        $subQueryCCResult = CcResult::find()->select("cc_id")->where(['status' => true]);
 
-        $dataProviderCC = new ActiveDataProvider([ // cc with result
+        $dataProviderCC = new ActiveDataProvider([ // cc with result (done)
             'query' => Cc::find()
-                        ->where(["in", "id", $subQueryCCResult])
+                        ->innerJoin('cc_result', 'cc_result.cc_id = cc.id AND cc_result.status IS true')
                         ->andWhere([$roleId => $user->id])
         ]);
         
@@ -225,7 +224,7 @@ class CcController extends Controller
     {
         $roleId = \Yii::$app->user->can('subordinate') ? "subordinate_id" : "superior_id";
 
-        $userId = Yii::$app->user->identity?->id;
+        $userId = \Yii::$app->user->identity?->id;
         
         if (($model = Cc::findOne(['id' => $id, $roleId => $userId])) !== null) {
             return $model;

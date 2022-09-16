@@ -35,8 +35,18 @@ use yii\helpers\Url;
             See CC Detail <i class="fa fa-arrow-circle-right"></i>
         </a>
     <?php else : ?>
-        <a href="<?= Url::to(["/result/create", "id" => $model->id]) ?>" class="small-box-footer">
-            Add Result for this CC <i class="fa fa-arrow-circle-right"></i>
-        </a>
+        <?php if(isset($action) && $action === "add_result") : ?>
+            <a href="<?= Url::to(["/result/create", "id" => $model->id]) ?>" class="small-box-footer">
+                Add Result for this CC <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        <?php elseif(isset($action) && $action === "update_result") : ?>
+            <a href="<?= Url::to(["/result/update", "id" => $model->id]) ?>" class="small-box-footer">
+                Update result for this CC <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        <?php else: ?>
+            <a href="<?= Url::to(["/cc/view", "id" => $model->id]) ?>" class="small-box-footer">
+                See CC Detail <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
